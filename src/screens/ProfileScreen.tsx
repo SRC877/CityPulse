@@ -11,7 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { useAppSelector } from "../bridge/hooks";
+import { useAppDispatch, useAppSelector } from "../bridge/hooks";
+import { setLanguage } from "../bridge/store/languageSlice";
 import type { RootStackParamList } from "../navigation/RootNavigator";
 
 const PRIMARY = "#F9735B";
@@ -27,11 +28,13 @@ type Nav = NativeStackNavigationProp<RootStackParamList, "Profile">;
 
 const ProfileScreen: React.FC = () => {
   const navigation = useNavigation<Nav>();
+  const dispatch = useAppDispatch();
 
   const language = useAppSelector((state) => state.language.code);
   const favouriteIds = useAppSelector((state) => state.favourites.ids);
 
-  const languageLabel = language === "ar" ? "Arabic" : "English";
+  const isArabic = language === "ar";
+  const languageLabel = isArabic ? "Arabic" : "English";
 
   const handleLogoutPress = () => {
     Alert.alert("Logout", "Logout flow will be implemented later.");
@@ -39,6 +42,11 @@ const ProfileScreen: React.FC = () => {
 
   const handleFavouritesPress = () => {
     navigation.navigate("Favourites");
+  };
+
+  const handleLanguagePress = () => {
+    const nextLang = isArabic ? "en" : "ar";
+    dispatch(setLanguage(nextLang));
   };
 
   return (
@@ -58,14 +66,22 @@ const ProfileScreen: React.FC = () => {
           <Text style={styles.settingsTitle}>SETTINGS</Text>
 
           {/* Language row */}
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity style={styles.row} onPress={handleLanguagePress}>
             <View style={styles.rowLeft}>
               <View style={styles.rowIconCircle}>
                 <Ionicons name="globe-outline" size={18} color={PRIMARY} />
               </View>
               <Text style={styles.rowLabel}>Language</Text>
             </View>
-            <Text style={styles.rowValue}>{languageLabel}</Text>
+            <View style={styles.rowRight}>
+              <Text style={styles.rowValue}>{languageLabel}</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={16}
+                color={TEXT_MUTED}
+                style={{ marginLeft: 4 }}
+              />
+            </View>
           </TouchableOpacity>
 
           {/* Divider */}
@@ -170,6 +186,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   rowLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  rowRight: {
     flexDirection: "row",
     alignItems: "center",
   },
