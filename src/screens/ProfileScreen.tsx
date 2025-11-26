@@ -120,7 +120,7 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.footer}>
           <Text style={styles.footerText}>City Pulse v1.0.0</Text>
           <Text style={styles.footerText}>
-            © 2024 City Pulse. All rights reserved.
+            © 2025 City Pulse. All rights reserved.
           </Text>
         </View>
       </View>
