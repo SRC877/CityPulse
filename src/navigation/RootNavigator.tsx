@@ -6,6 +6,7 @@ import SplashScreen from "../screens/SplashScreen";
 import HomeScreen from "../screens/HomeScreen";
 import EventDetailsScreen from "../screens/EventDetailsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import FavouritesScreen from "../screens/FavouritesScreen";
 import type { EventItem } from "../bridge/types/events";
 
 export type RootStackParamList = {
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   Home: undefined;
   EventDetails: { event: EventItem };
   Profile: undefined;
+  Favourites: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -39,6 +41,11 @@ const RootNavigator: React.FC = () => (
         name="Profile"
         component={ProfileScreen}
         options={{ title: "Profile" }}
+      />
+      <Stack.Screen
+        name="Favourites"
+        component={FavouritesScreen}
+        options={{ title: "My Favorites" }}
       />
     </Stack.Navigator>
   </NavigationContainer>

@@ -8,9 +8,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useAppSelector } from "../bridge/hooks";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const PRIMARY = "#F9735B"; // accent color for avatar / logout
+import { useAppSelector } from "../bridge/hooks";
+import type { RootStackParamList } from "../navigation/RootNavigator";
+
+const PRIMARY = "#F9735B";
 const TEXT_DARK = "#111827";
 const TEXT_MUTED = "#6B7280";
 const CARD_BG = "#FFFFFF";
@@ -19,15 +23,22 @@ const SCREEN_BG = "#F3F4F6";
 const MOCK_NAME = "Sangha";
 const MOCK_EMAIL = "src8775@gmail.com";
 
+type Nav = NativeStackNavigationProp<RootStackParamList, "Profile">;
+
 const ProfileScreen: React.FC = () => {
+  const navigation = useNavigation<Nav>();
+
   const language = useAppSelector((state) => state.language.code);
   const favouriteIds = useAppSelector((state) => state.favourites.ids);
 
   const languageLabel = language === "ar" ? "Arabic" : "English";
 
   const handleLogoutPress = () => {
-    // Placeholder – real logout logic will be added later
     Alert.alert("Logout", "Logout flow will be implemented later.");
+  };
+
+  const handleFavouritesPress = () => {
+    navigation.navigate("Favourites");
   };
 
   return (
@@ -61,7 +72,7 @@ const ProfileScreen: React.FC = () => {
           <View style={styles.divider} />
 
           {/* Favourites row */}
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity style={styles.row} onPress={handleFavouritesPress}>
             <View style={styles.rowLeft}>
               <View style={styles.rowIconCircle}>
                 <Ionicons name="heart-outline" size={18} color={PRIMARY} />
@@ -92,7 +103,9 @@ const ProfileScreen: React.FC = () => {
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>City Pulse v1.0.0</Text>
-          <Text style={styles.footerText}>© 2024 City Pulse. All rights reserved.</Text>
+          <Text style={styles.footerText}>
+            © 2024 City Pulse. All rights reserved.
+          </Text>
         </View>
       </View>
     </SafeAreaView>

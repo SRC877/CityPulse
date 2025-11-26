@@ -27,18 +27,18 @@ const EventDetailsScreen: React.FC<Props> = ({ route }) => {
       <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 12 }}>
         {event.name}
       </Text>
-      <Text>{event.venue}</Text>
+      {event.venue ? <Text>{event.venue}</Text> : null}
       <Text>
-        {event.city}, {event.country}
+        {[event.city, event.country].filter(Boolean).join(", ")}
       </Text>
       <Text>
-        {event.date} {event.time}
+        {event.date || "Date TBA"} {event.time ? `· ${event.time}` : ""}
       </Text>
 
       <View style={{ marginTop: 12 }}>
         <Button
           title={isFav ? "Remove from favourites" : "Add to favourites"}
-          onPress={() => dispatch(toggleFavourite(event.id))}
+          onPress={() => dispatch(toggleFavourite(event))}
         />
       </View>
     </ScrollView>

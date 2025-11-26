@@ -38,7 +38,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const error = useAppSelector((state) => state.events.error);
   const favouriteIds = useAppSelector((state) => state.favourites.ids);
 
-  // Configure header profile avatar
+  // Header avatar → Profile
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "City Pulse",
@@ -49,7 +49,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
           <View style={styles.headerAvatar}>
-            {/* You can replace "SR" with first letters of logged-in user later */}
             <Text style={styles.headerAvatarText}>SR</Text>
           </View>
         </TouchableOpacity>
@@ -127,7 +126,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             key={item.id}
             event={item}
             isFavourite={favouriteIds.includes(item.id)}
-            onToggleFavourite={() => dispatch(toggleFavourite(item.id))}
+            onToggleFavourite={() => dispatch(toggleFavourite(item))}
             onPress={() => handlePressEvent(item)}
           />
         ))}
@@ -188,7 +187,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 12,
   },
-  // Header avatar
   headerAvatarContainer: {
     marginRight: 12,
   },
